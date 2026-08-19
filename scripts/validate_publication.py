@@ -38,6 +38,7 @@ REQUIRED_INVARIANTS = [
     "AUTHORITY_OVER_ACTION_NE_AUTHORITY_OVER_ACTOR",
     "RECOVERY_NE_TRANSFER",
     "REPLICA_NE_SOVEREIGN",
+    "UNRESOLVED_IS_GOVERNED",
 ]
 
 REQUIRED_NEGATIVE_VECTORS = {
@@ -49,6 +50,10 @@ REQUIRED_NEGATIVE_VECTORS = {
     "routing-not-authority-001",
     "settlement-bypass-001",
     "evidence-not-state-001",
+    "admit-unresolved-persist-001",
+    "admit-resubmit-bypass-001",
+    "authorize-unresolved-binding-001",
+    "unresolved-conflict-merge-001",
     "replica-self-promotion-001",
     "replica-conflict-001",
     "recovery-provider-transfer-001",
@@ -90,6 +95,10 @@ def check_json() -> None:
         fail("schema must declare JSON Schema draft 2020-12")
     if schema.get("properties", {}).get("protocol", {}).get("const") != "PEACE/0":
         fail("schema protocol const must be PEACE/0")
+    kinds = set(schema.get("properties", {}).get("kind", {}).get("enum", []))
+    for required_kind in {"ADMISSION_DECISION", "UNRESOLVED_BINDING"}:
+        if required_kind not in kinds:
+            fail(f"schema missing required admission kind: {required_kind}")
     if vectors.get("protocol") != "PEACE/0" or vectors.get("profile") != "core-v0":
         fail("unexpected protocol/profile in conformance vectors")
 
@@ -105,6 +114,8 @@ def check_protocol() -> None:
     protocol = read("protocol/PEACE_PROTOCOL_V0.md")
     world = read("protocol/PEACE_WORLD_V0.md")
     readme = read("README.md")
+    contributing = read("CONTRIBUTING.md")
+    notice = read("NOTICE")
 
     for invariant in REQUIRED_INVARIANTS:
         if invariant not in protocol:
@@ -117,6 +128,11 @@ def check_protocol() -> None:
     ]:
         if phrase not in (protocol + "\n" + world + "\n" + readme):
             fail(f"missing canonical protocol phrase: {phrase}")
+
+    if "Conceptual contributions and provenance" not in contributing:
+        fail("CONTRIBUTING.md must define conceptual contribution provenance")
+    if "Margaret Stokes" not in notice:
+        fail("NOTICE must preserve current conceptual attribution")
 
     if VERSION not in readme:
         fail(f"README.md must identify draft {VERSION}")
