@@ -1,57 +1,38 @@
 # PEACE Protocol
 
-PEACE is a vendor-neutral protocol for preserving authoritative state and execution authority while models, agents, devices, compute providers, routers and settlement rails remain replaceable.
+PEACE is an open protocol for keeping authority and authoritative state under the control of the person or organisation they belong to, while models, agents, devices, compute and service providers remain replaceable.
 
 > Everything can be routed except sovereignty.
 
-## Core idea
+## What PEACE defines
 
-Govern the workspace, not the worker.
-
-A PEACE domain keeps the parts that must remain authoritative outside replaceable capability providers:
-
-- actor / domain identity
-- authoritative state
-- standing and delegation
-- execution authority
-- evidence and lineage
-
-Models, agents, compute, routing and settlement may change without becoming authority roots.
-
-## Protocol invariants
+PEACE separates the governed domain from the workers operating inside it.
 
 ```text
-knowledge       != authority
-proposal        != decision
-authorization   != effect
-evidence        != authoritative state
-credential      != actor
-compute route   != authority source
-payment rail    != economic authority
-implementation  != protocol
+authoritative state  != provider state
+proposal             != decision
+authorization        != effect
+evidence             != authority
+routing              != authority
+credential           != actor
+replica              != sovereign
 ```
 
-A consequence-bearing action must be checked against fresh authority at the effect boundary. A provider cannot acquire sovereignty merely because it stores state, holds credentials, routes intelligence, supplies compute or moves money.
+Any consequence-bearing action must pass a fresh authority check at the effect boundary. No model, router, cloud, payment rail or other replaceable provider becomes an authority root merely by participating in execution.
 
-## Start here
+## Read the protocol
 
-1. [Normative protocol draft](protocol/PEACE_PROTOCOL_V0.md)
-2. [World contract and derivation](protocol/PEACE_WORLD_V0.md)
-3. [Protocol envelope schema](schemas/peace-envelope-v0.schema.json)
-4. [Conformance vectors](conformance/conformance-v0.json)
+- [Protocol specification](protocol/PEACE_PROTOCOL_V0.md)
+- [World contract](protocol/PEACE_WORLD_V0.md)
+- [Envelope schema](schemas/peace-envelope-v0.schema.json)
+- [Conformance vectors](conformance/conformance-v0.json)
 
-Current line: `0.1.0-draft.1`.
-
-## Scope
-
-This repository contains the public protocol, schemas and conformance material. It does not contain production control-plane logic, customer integrations, private deployment configuration or proprietary assurance infrastructure.
-
-PEACE is independently implementable under Apache License 2.0. No vendor, including VALO, is required to implement the protocol.
+Current draft: `0.1.0-draft.1`
 
 ## Relationship to reht
 
-PEACE defines the sovereign domain and authority semantics. `reht` is one possible implementation of a fresh, exact consequence gate. It is not required by the protocol.
+PEACE defines the governed domain and authority semantics. `reht` is one possible implementation of a fresh consequence gate. It is not required by PEACE.
 
-## Licence and governance
+## Project
 
-Apache License 2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), [LICENSING.md](LICENSING.md), [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md) and [TRADEMARKS.md](TRADEMARKS.md).
+Apache License 2.0. Contributions and protocol governance are documented in [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md). Security reports: [SECURITY.md](SECURITY.md).
