@@ -6,6 +6,8 @@ Status: publication draft, 2026-08-19
 
 PEACE welcomes implementation-neutral contributions that improve the protocol, schemas, conformance vectors, security model, documentation and interoperability.
 
+Contributions may arrive through code, specification text, issue discussion, design review, document exchange, research critique or other attributable technical dialogue.
+
 ## Contribution licence
 
 Unless explicitly marked otherwise, contributions accepted into PEACE are licensed under Apache License 2.0, matching the outbound project licence.
@@ -14,13 +16,33 @@ Contributors must have the right to submit their contribution.
 
 ## Developer Certificate of Origin style sign-off
 
-Contributions SHOULD include a sign-off line in the commit message:
+Code and repository-text contributions SHOULD include a sign-off line in the commit message:
 
 `Signed-off-by: Name <email>`
 
-The sign-off represents that the contributor created the work or otherwise has the right to submit it under the project licence.
+The sign-off represents that the contributor created the submitted work or otherwise has the right to submit it under the project licence.
 
 No CLA is required initially.
+
+DCO-style commit sign-off is not the exclusive mechanism for recognising conceptual contribution.
+
+## Conceptual contributions and provenance
+
+A conceptual contribution MAY be recognised even where the contributor did not submit a Git commit.
+
+Where discussion, critique, correspondence, research review or document exchange materially shapes a PEACE distinction, invariant, lifecycle rule, conformance requirement or other protocol semantics, maintainers SHOULD preserve provenance in an appropriate durable repository record such as `NOTICE`, an acknowledgements section, an issue, a pull request or a dedicated provenance record.
+
+Such a record SHOULD identify, as precisely as practical:
+
+- the contributor;
+- the concept, distinction or critique materially contributed;
+- the approximate source or date of the exchange where known;
+- any relevant pre-existing work identified by the contributor;
+- whether the contribution affected normative protocol semantics, explanatory wording, conformance coverage or review only.
+
+Recognition of conceptual contribution does not by itself assign ownership of general axioms, ordinary terminology, independently developed material, the protocol as a whole, or another contributor's pre-existing work.
+
+Private correspondence MUST NOT be published without permission. Where the source exchange cannot be made public, the repository MAY record attribution and provenance at a level that preserves confidentiality while still making the contribution visible.
 
 ## Normative changes
 
@@ -93,6 +115,7 @@ Review asks:
 4. Can an independent implementation reproduce the semantics?
 5. Is negative behavior testable?
 6. Does the change belong in core or an optional profile?
+7. Has material conceptual provenance been recorded where it did not arrive through Git history?
 
 ## Conduct
 

@@ -30,7 +30,7 @@ Capability may move. Intelligence may move. Compute may move. Money may move. Au
 A conformant implementation MUST preserve all of the following:
 
 1. **ACTOR_IS_AUTHORITY_ROOT** — the logical protected actor/domain is the root of authority. A credential, key, device, provider, model, runtime, storage location or compute node MUST NOT become the authority root merely by representing, authenticating or serving that actor.
-2. **FRAMLEIS** — replacement or loss of a replaceable artifact MUST NOT by itself destroy continuity of the logical actor/domain, admitted state, standing, authority, rights, relationships, governance, evidence lineage or recovery path.
+2. **FRAMLEIS** — replacement or loss of a replaceable artifact MUST NOT by itself destroy continuity of the logical actor/domain, admitted state, unresolved governed material, standing, authority, rights, relationships, governance, evidence lineage or recovery path.
 3. **CAPABILITY_NE_AUTHORITY** — capability, intelligence, possession of data, successful authentication, attestation, routing or computation MUST NOT create authority to act.
 4. **CANDIDATE_NE_DECISION** — observation, inference, prediction, recommendation, plan or generated action is candidate material only.
 5. **DISCLOSURE_IS_GOVERNED** — information leaving the sovereign domain MUST be minimized and bound to purpose, destination and current governed context.
@@ -42,6 +42,7 @@ A conformant implementation MUST preserve all of the following:
 11. **AUTHORITY_OVER_ACTION_NE_AUTHORITY_OVER_ACTOR** — authorization for one action MUST NOT imply ownership or general authority over another actor.
 12. **RECOVERY_NE_TRANSFER** — loss of access MUST permit recovery of control without permitting transfer of identity or authority to a recovery provider.
 13. **REPLICA_NE_SOVEREIGN** — a replica MUST NOT become authoritative merely because it contains the newest bytes.
+14. **UNRESOLVED_IS_GOVERNED** — unresolved material is an explicit governed state, not a timeout, discarded value or implicit default. It MUST remain identifiable and consequential until an explicit governed admission transition resolves or rejects it.
 
 These invariants are the protocol. Component names and internal topology are not.
 
@@ -57,7 +58,8 @@ authoritative state
   -> current exact authorization
   -> effect / settlement
   -> evidence / outcome
-  -> admitted state transition
+  -> admission decision
+  -> admitted state transition OR governed unresolved state
 ```
 
 Recovery and replication are orthogonal and MUST preserve the same logical actor/domain.
@@ -73,6 +75,8 @@ credential     != actor
 compute route  != authority source
 payment rail   != economic authority
 implementation != protocol
+unresolved     != rejected
+unresolved     != pending timeout
 ```
 
 ## 5. Required logical roles
@@ -87,7 +91,8 @@ Implementations may use any names or data structures, but must be able to expres
 - an exact consequence action;
 - a fresh authorization decision bound to that consequence and current state/authority;
 - an effect/outcome receipt or evidence event;
-- an admission decision that determines whether evidence changes authoritative state;
+- an admission decision that determines whether candidate material is accepted, rejected or remains unresolved;
+- a durable unresolved binding sufficient to preserve candidate identity, referent, contradiction/evidence context and lifecycle where admission cannot yet be determined;
 - a recovery representation sufficient to preserve actor/domain continuity;
 - a replication lineage sufficient to reject stale or divergent state transitions.
 
@@ -109,7 +114,28 @@ RECOVER
 
 ### 6.1 ADMIT
 
-Candidate information or evidence may be accepted, rejected or left unresolved. Persistence, signature validity, provider status or worker confidence MUST NOT establish standing by themselves. Only an admitted transition may mutate authoritative state.
+Candidate information or evidence MUST receive an explicit admission outcome of **ACCEPT**, **REJECT** or **UNRESOLVED** before it can affect authoritative state or any downstream decision that requires the material to have standing.
+
+An admission decision MUST be bound sufficiently to identify:
+
+- the protected actor/domain;
+- the candidate or evidence object and stable object digest/reference;
+- the referent or governed subject to which the material is claimed to apply;
+- the relevant current state/version or lineage context;
+- the admissibility conditions applied;
+- relevant contradictory or competing material known at decision time;
+- the evidence-sufficiency condition or reason the condition cannot yet be satisfied;
+- the resulting outcome: ACCEPT, REJECT or UNRESOLVED.
+
+Persistence, signature validity, provider status, worker confidence, repetition or resubmission MUST NOT establish standing by themselves. Only ACCEPT may produce an admitted transition that mutates authoritative state.
+
+UNRESOLVED is a governed state in its own right. An unresolved record MUST remain durably associated with the candidate/referent and its relevant provenance until an explicit later admission decision resolves it. It MUST NOT silently expire, collapse into rejection, become accepted by default, or lose identity because the same or equivalent candidate is resubmitted.
+
+Multiple unresolved interpretations MAY coexist. Implementations MUST preserve enough identity and provenance to distinguish them rather than silently merging incompatible interpretations.
+
+A later admission pass MAY resolve an unresolved record only through an explicit governed transition based on changed evidence, changed admissibility conditions, corrected referent binding, contradiction resolution or another recorded reason. Re-evaluation alone MUST NOT erase the prior unresolved lineage.
+
+Where authorization depends on a fact, binding, standing condition or evidence requirement that remains materially unresolved, AUTHORIZE MUST fail closed, defer, or require explicit resolution according to the governing policy. It MUST NOT treat unresolved material as accepted merely to permit consequence.
 
 ### 6.2 PROJECT / DISCLOSE
 
@@ -136,13 +162,13 @@ Where applicable, the authorization decision must bind or verify:
 - current relevant state commitment/version;
 - current authority/revocation state;
 - validity/freshness conditions;
-- required admissibility/evidence conditions.
+- required admissibility/evidence conditions, including the absence or permitted treatment of materially unresolved bindings.
 
 A prior disclosure grant, old authorization, model confidence, route decision, credential possession, compute allocation or payment capability MUST NOT substitute for the fresh consequence-time check.
 
 ### 6.5 EFFECT / SETTLE
 
-Only the exact authorized consequence may be attempted. If current authority, state, standing, revocation, purpose, scope, exact-action binding or required evidence no longer satisfies authorization, the result MUST be null effect / fail closed.
+Only the exact authorized consequence may be attempted. If current authority, state, standing, revocation, purpose, scope, exact-action binding or required evidence/admissibility no longer satisfies authorization, the result MUST be null effect / fail closed.
 
 Settlement is a consequence and is therefore governed by the same rule. A payment rail may execute value transfer only after the exact economic action has been authorized.
 
@@ -154,9 +180,9 @@ Cryptographic integrity, signer authority, policy meaning, artifact resolution a
 
 ### 6.7 REPLICATE
 
-Replication MUST synchronize admitted state transitions and lineage, not blindly copy mutable files.
+Replication MUST synchronize admitted state transitions, governed unresolved records and lineage, not blindly copy mutable files.
 
-A replica MUST NOT become sovereign merely because it is newest. Stale or divergent lineage MUST fail closed to explicit resolution, re-authorization or rejection. Last-write-wins semantics are non-conformant for authoritative state.
+A replica MUST NOT become sovereign merely because it is newest. Stale or divergent lineage MUST fail closed to explicit resolution, re-authorization or rejection. Last-write-wins semantics are non-conformant for authoritative state or unresolved governed material.
 
 ### 6.8 RECOVER
 
@@ -217,6 +243,10 @@ A claimed PEACE v0 implementation MUST demonstrate, for its claimed profile, tha
 - stale relevant state or authority invalidates prior authorization;
 - an authorization cannot be reused for materially different action semantics;
 - evidence does not mutate authoritative state without admission;
+- admission deterministically produces ACCEPT, REJECT or UNRESOLVED against declared admissibility/evidence conditions;
+- unresolved material persists with identity/provenance and cannot become accepted through timeout, repetition or resubmission;
+- materially unresolved required bindings prevent downstream authorization from treating them as admitted;
+- conflicting unresolved interpretations do not silently merge;
 - routing does not create authority;
 - settlement cannot bypass current exact authorization;
 - replicas cannot self-promote to sovereignty;

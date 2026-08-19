@@ -90,6 +90,68 @@
       "expected": {"authoritative_state_mutation": "NONE", "reason": "EVIDENCE_NE_STATE"}
     },
     {
+      "id": "admit-unresolved-persist-001",
+      "given": {
+        "candidate_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "referent": "subject:example",
+        "admission_decision": "UNRESOLVED",
+        "sufficiency_met": false,
+        "time_elapsed": true,
+        "candidate_resubmitted": false
+      },
+      "expected": {
+        "authoritative_state_mutation": "NONE",
+        "unresolved_binding_persists": true,
+        "standing_created": false,
+        "reason": "UNRESOLVED_IS_GOVERNED"
+      }
+    },
+    {
+      "id": "admit-resubmit-bypass-001",
+      "given": {
+        "candidate_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "prior_admission_decision": "UNRESOLVED",
+        "same_candidate_resubmitted": true,
+        "new_resolving_evidence": false,
+        "admissibility_conditions_changed": false
+      },
+      "expected": {
+        "admission_decision": "UNRESOLVED",
+        "authoritative_state_mutation": "NONE",
+        "prior_unresolved_lineage_preserved": true,
+        "reason": "RESUBMISSION_NE_ADMISSION"
+      }
+    },
+    {
+      "id": "authorize-unresolved-binding-001",
+      "given": {
+        "required_binding_status": "UNRESOLVED",
+        "policy_requires_binding_resolved": true,
+        "standing_current": true,
+        "authority_current": true,
+        "exact_action_matches": true
+      },
+      "expected": {
+        "authorization": "DENY_OR_DEFER",
+        "effect_allowed": false,
+        "reason": "REQUIRED_ADMISSIBILITY_UNRESOLVED"
+      }
+    },
+    {
+      "id": "unresolved-conflict-merge-001",
+      "given": {
+        "referent": "subject:example",
+        "interpretation_a_status": "UNRESOLVED",
+        "interpretation_b_status": "UNRESOLVED",
+        "interpretations_conflict": true
+      },
+      "expected": {
+        "silent_merge": false,
+        "both_bindings_preserved": true,
+        "resolution_required_before_required_commitment": true
+      }
+    },
+    {
       "id": "replica-self-promotion-001",
       "given": {
         "replica_has_newest_bytes": true,
