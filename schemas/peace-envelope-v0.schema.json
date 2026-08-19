@@ -18,6 +18,8 @@
         "CANDIDATE_COMMITMENT",
         "CONSEQUENCE_ACTION",
         "AUTHORIZATION_DECISION",
+        "ADMISSION_DECISION",
+        "UNRESOLVED_BINDING",
         "SETTLEMENT_INTENT",
         "EFFECT_RECEIPT",
         "EVIDENCE_EVENT",
@@ -39,7 +41,7 @@
     "valid_until": {"type": "string"},
     "payload": {
       "type": "object",
-      "description": "Kind-specific logical fields. Floating-point numbers are forbidden in canonical digest objects."
+      "description": "Kind-specific logical fields. Admission decisions use ACCEPT, REJECT or UNRESOLVED. Unresolved bindings preserve candidate/referent identity, provenance, contradiction/evidence context and lifecycle. Floating-point numbers are forbidden in canonical digest objects."
     }
   }
 }
