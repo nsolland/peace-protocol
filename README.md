@@ -1,47 +1,24 @@
 # PEACE Protocol
 
-**Personal Execution, Authority & Compute Environment**  
-**Your Sovereign State.**
+PEACE is a vendor-neutral protocol for preserving authoritative state and execution authority while models, agents, devices, compute providers, routers and settlement rails remain replaceable.
 
-> **Everything can be routed except sovereignty.**
+> Everything can be routed except sovereignty.
 
-PEACE is an open, vendor-neutral protocol for preserving a person’s or organisation’s sovereign digital domain while models, agents, devices, credentials, services, compute providers, routers and settlement rails remain replaceable.
+## Core idea
 
-The protocol separates what must persist from what may move:
+Govern the workspace, not the worker.
 
-```text
-PEACE          = actor/domain + authoritative state + standing + authority
-Factory        = replaceable capability
-Model router   = replaceable intelligence routing
-Compute        = replaceable capacity
-Settlement     = replaceable economic rail
-reht           = one possible fresh exact consequence gate
-```
+A PEACE domain keeps the parts that must remain authoritative outside replaceable capability providers:
 
-The core derivation is simple:
+- actor / domain identity
+- authoritative state
+- standing and delegation
+- execution authority
+- evidence and lineage
 
-> **Govern the workspace, not the worker.**
+Models, agents, compute, routing and settlement may change without becoming authority roots.
 
-If workers are replaceable, then models, devices, compute, services and providers must also be replaceable. What must persist is the governed domain.
-
-## Status
-
-Current line: **`0.1.0-draft.1` publication candidate**.
-
-This repository is intended to become the canonical public PEACE protocol and conformance surface. It is not a VALO production runtime repository and does not contain private deployment logic, customer integrations, internal thresholds or commercial certification infrastructure.
-
-## Start here
-
-- [`protocol/PEACE_WORLD_V0.md`](protocol/PEACE_WORLD_V0.md) — world contract and derivation question
-- [`protocol/PEACE_PROTOCOL_V0.md`](protocol/PEACE_PROTOCOL_V0.md) — normative draft protocol
-- [`schemas/peace-envelope-v0.schema.json`](schemas/peace-envelope-v0.schema.json) — protocol envelope schema
-- [`conformance/conformance-v0.json`](conformance/conformance-v0.json) — machine-readable conformance vectors
-- [`LICENSING.md`](LICENSING.md) — open/royalty-free implementation policy
-- [`GOVERNANCE.md`](GOVERNANCE.md) — normative change authority
-- [`PUBLICATION_PLAN.md`](PUBLICATION_PLAN.md) — publication and standardisation sequence
-- [`PUBLICATION_STATUS.md`](PUBLICATION_STATUS.md) — exact release status
-
-## Constitutional distinctions
+## Protocol invariants
 
 ```text
 knowledge       != authority
@@ -54,20 +31,27 @@ payment rail    != economic authority
 implementation  != protocol
 ```
 
-A replaceable provider cannot become the sovereignty root merely because it stores data, holds a credential, routes a model, supplies compute or moves money.
+A consequence-bearing action must be checked against fresh authority at the effect boundary. A provider cannot acquire sovereignty merely because it stores state, holds credentials, routes intelligence, supplies compute or moves money.
 
-## Open protocol / commercial infrastructure
+## Start here
 
-PEACE is intended to be free to adopt and independently implement under Apache License 2.0. No vendor — including VALO — is required merely to implement the public protocol.
+1. [Normative protocol draft](protocol/PEACE_PROTOCOL_V0.md)
+2. [World contract and derivation](protocol/PEACE_WORLD_V0.md)
+3. [Protocol envelope schema](schemas/peace-envelope-v0.schema.json)
+4. [Conformance vectors](conformance/conformance-v0.json)
 
-Commercial services may exist around the protocol, including managed control planes, certification, assurance, recovery services, hosted registries/resolvers, adapters, enterprise deployment and support.
+Current line: `0.1.0-draft.1`.
 
-> **The protocol is free. Operational trust infrastructure is commercial.**
+## Scope
 
-## Lineage
+This repository contains the public protocol, schemas and conformance material. It does not contain production control-plane logic, customer integrations, private deployment configuration or proprietary assurance infrastructure.
 
-The first public PEACE proposal seed was published in `nsolland/reht-standard` PR #21 before this dedicated repository was created. That proposal remains historical lineage; this repository is the intended canonical home once the first validated draft release is accepted.
+PEACE is independently implementable under Apache License 2.0. No vendor, including VALO, is required to implement the protocol.
 
-## Licence
+## Relationship to reht
 
-Apache License 2.0. See [`LICENSE`](LICENSE), [`LICENSING.md`](LICENSING.md), [`NOTICE`](NOTICE) and [`TRADEMARKS.md`](TRADEMARKS.md).
+PEACE defines the sovereign domain and authority semantics. `reht` is one possible implementation of a fresh, exact consequence gate. It is not required by the protocol.
+
+## Licence and governance
+
+Apache License 2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), [LICENSING.md](LICENSING.md), [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md) and [TRADEMARKS.md](TRADEMARKS.md).
