@@ -29,6 +29,14 @@ Any consequence-bearing action must pass a fresh authority check at the effect b
 - [Envelope schema](schemas/peace-envelope-v0.schema.json)
 - [Conformance vectors](conformance/conformance-v0.json)
 
+### Experimental interoperability profile
+
+- [MCIP — Mesh Context Interaction Protocol v0](protocol/PEACE_MCIP_V0.md)
+- [MCIP envelope schema](schemas/peace-mcip-envelope-v0.schema.json)
+- [MCIP semantic conformance vectors](conformance/mcip-conformance-v0.json)
+
+MCIP is an optional transport-independent profile for bounded context, hypothesis, residual, evaluation and handoff exchange between models, agents, humans, devices and cognitive factories. It does not change PEACE authority semantics and is not required for PEACE conformance.
+
 Current draft: `0.1.0-draft.1`
 
 ## Relationship to reht
