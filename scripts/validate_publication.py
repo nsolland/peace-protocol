@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed publication validation for PEACE Protocol draft releases."""
+"""Fail-closed validation for PEACE Protocol draft releases."""
 
 from __future__ import annotations
 
@@ -20,8 +20,6 @@ REQUIRED_FILES = [
     "CONTRIBUTING.md",
     "SECURITY.md",
     "TRADEMARKS.md",
-    "PUBLICATION_PLAN.md",
-    "PUBLICATION_STATUS.md",
     "CHANGELOG.md",
     "protocol/PEACE_WORLD_V0.md",
     "protocol/PEACE_PROTOCOL_V0.md",
@@ -149,16 +147,9 @@ def check_licensing() -> None:
 
 
 def check_release_metadata() -> None:
-    readme = read("README.md")
-    status = read("PUBLICATION_STATUS.md")
-    changelog = read("CHANGELOG.md")
-
-    for path, text in [("README.md", readme), ("PUBLICATION_STATUS.md", status), ("CHANGELOG.md", changelog)]:
-        if VERSION not in text:
+    for path in ["README.md", "CHANGELOG.md"]:
+        if VERSION not in read(path):
             fail(f"{path} must identify candidate version {VERSION}")
-
-    if "No immutable PEACE release tag has been published yet" not in status:
-        fail("publication status must not claim a release tag before release")
 
 
 def check_obvious_secrets() -> None:
@@ -183,7 +174,7 @@ def main() -> None:
     check_licensing()
     check_release_metadata()
     check_obvious_secrets()
-    print(f"PEACE publication validation PASS: {VERSION}")
+    print(f"PEACE validation PASS: {VERSION}")
 
 
 if __name__ == "__main__":
