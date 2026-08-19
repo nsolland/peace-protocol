@@ -1,0 +1,140 @@
+{
+  "profile": "PEACE-MCIP-v0",
+  "status": "draft",
+  "note": "Semantic conformance vectors. These vectors test required outcomes, not transport or implementation topology.",
+  "vectors": [
+    {
+      "id": "MCIP-001-CONTEXT-NE-ADMISSION",
+      "given": {
+        "kind": "CONTEXT_CAPSULE",
+        "epistemic_status": "EVIDENCE",
+        "payload": {"claim": "temperature_ok"}
+      },
+      "when": "message_received",
+      "must": [
+        "content_remains_unadmitted_until_PEACE_ADMIT_ACCEPT",
+        "receipt_does_not_mutate_authoritative_state"
+      ]
+    },
+    {
+      "id": "MCIP-002-UNRESOLVED-SURVIVES-HANDOFF",
+      "given": {
+        "kind": "HANDOFF",
+        "epistemic_status": "UNRESOLVED",
+        "payload": {
+          "residual_ref": "residual:17",
+          "unresolved_refs": ["candidate:A", "candidate:B"]
+        }
+      },
+      "when": "handoff_processed",
+      "must": [
+        "unresolved_status_preserved",
+        "candidate_A_and_candidate_B_remain_distinguishable",
+        "handoff_does_not_create_delegation"
+      ]
+    },
+    {
+      "id": "MCIP-003-ROUTE-NE-AUTHORITY",
+      "given": {
+        "kind": "ROUTE_SUGGESTION",
+        "epistemic_status": "ROUTE_SUGGESTION",
+        "payload": {
+          "next_node": "node:strong-reasoner",
+          "expected_marginal_value": 82
+        }
+      },
+      "when": "route_selected",
+      "must": [
+        "selection_may_change_compute_route",
+        "selection_does_not_create_standing",
+        "selection_does_not_authorize_effect"
+      ]
+    },
+    {
+      "id": "MCIP-004-STALE-CONTEXT-DETECTABLE",
+      "given": {
+        "kind": "CONTEXT_CAPSULE",
+        "validity": {
+          "state_ref": "state:41",
+          "authority_state_ref": "authority:12",
+          "freshness_seconds": 30
+        }
+      },
+      "when": "receiver_current_state_is_state_42_or_freshness_exceeded",
+      "must": [
+        "staleness_detectable",
+        "stale_context_not_silently_treated_as_current"
+      ]
+    },
+    {
+      "id": "MCIP-005-SYNTHESIS-PRESERVES-DISAGREEMENT",
+      "given": {
+        "kind": "SYNTHESIS",
+        "parent_message_ids": ["hypothesis:A", "challenge:B"],
+        "payload": {
+          "material_disagreement": true,
+          "unresolved_refs": ["referent:customer-account"]
+        }
+      },
+      "when": "synthesis_emitted",
+      "must": [
+        "both_parent_lineages_preserved",
+        "material_disagreement_not_silently_removed",
+        "unresolved_referent_not_promoted_to_fact"
+      ]
+    },
+    {
+      "id": "MCIP-006-PATTERN-WITHOUT-RAW-CONTEXT",
+      "given": {
+        "kind": "PATTERN_OFFER",
+        "disclosure": {"raw_context_disclosure": false},
+        "payload": {
+          "problem_signature": "semantic-drift+incomplete-evidence",
+          "topology": ["frame_expander", "contradiction_hunter", "synthesis"],
+          "sample_size": 84,
+          "outcome_delta_basis_points": 1800
+        }
+      },
+      "when": "pattern_shared_to_another_factory",
+      "must": [
+        "pattern_may_be_used_as_routing_evidence",
+        "underlying_private_task_context_not_required",
+        "pattern_does_not_create_disclosure_permission"
+      ]
+    },
+    {
+      "id": "MCIP-007-TRANSPORT-NE-AUTHORITY",
+      "given": {
+        "kind": "ACK",
+        "transport_metadata": {
+          "transport": "quic",
+          "mutual_tls": true,
+          "peer_connection": "authenticated"
+        }
+      },
+      "when": "message_received_over_authenticated_transport",
+      "must": [
+        "origin_or_channel_integrity_may_be_recorded",
+        "transport_authentication_does_not_create_PEACE_authority",
+        "ACK_does_not_mean_admitted_authorized_or_effected"
+      ]
+    },
+    {
+      "id": "MCIP-008-NO-DIRECT-EFFECT",
+      "given": {
+        "kind": "SYNTHESIS",
+        "payload": {
+          "candidate_action": "transfer_value",
+          "amount_minor": 5000,
+          "currency": "EUR"
+        }
+      },
+      "when": "receiver_has_access_to_effecting_tool",
+      "must": [
+        "candidate_action_remains_inert",
+        "effect_requires_fresh_PEACE_authorization",
+        "MCIP_message_cannot_bypass_effect_boundary"
+      ]
+    }
+  ]
+}
