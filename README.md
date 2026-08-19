@@ -4,6 +4,8 @@ PEACE is an open protocol for keeping authority and authoritative state under th
 
 > Everything can be routed except sovereignty.
 
+Govern the workspace, not the worker.
+
 ## What PEACE defines
 
 PEACE separates the governed domain from the workers operating inside it.
