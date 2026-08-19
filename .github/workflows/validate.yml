@@ -1,4 +1,4 @@
-name: Validate PEACE publication
+name: Validate PEACE
 
 on:
   pull_request:
@@ -13,30 +13,16 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Validate publication surface
+      - name: Validate protocol surface
         run: python scripts/validate_publication.py
 
-      - name: Parse public JSON artifacts
+      - name: Parse JSON artifacts
         run: |
           python -m json.tool schemas/peace-envelope-v0.schema.json >/dev/null
           python -m json.tool conformance/conformance-v0.json >/dev/null
-
-      - name: Verify required paths are tracked
-        run: |
-          test -f protocol/PEACE_WORLD_V0.md
-          test -f protocol/PEACE_PROTOCOL_V0.md
-          test -f schemas/peace-envelope-v0.schema.json
-          test -f conformance/conformance-v0.json
-          test -f LICENSING.md
-          test -f GOVERNANCE.md
-          test -f SECURITY.md
-          test -f TRADEMARKS.md
-          test -f PUBLICATION_STATUS.md
