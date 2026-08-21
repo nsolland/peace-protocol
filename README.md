@@ -38,6 +38,10 @@ Any consequence-bearing action must pass a fresh authority check at the effect b
 
 MCIP is an optional transport-independent profile for bounded context, hypothesis, residual, evaluation and handoff exchange between models, agents, humans, devices and cognitive factories. The companion capability-surface note generalizes the mesh beyond cognition and API-connected tools: GUI, browser, operating-system, device, human, robotic and settlement surfaces may all be replaceable routes to capability while authority remains in the sovereign domain. Neither changes PEACE authority semantics or is required for PEACE conformance.
 
+### Research and design notes
+
+- [Cross-model KV cache transfer — implications for Peace Mesh and MCIP](docs/research/2026-08-21-cross-model-kv-cache-transfer.md)
+
 Current draft: `0.1.0-draft.1`
 
 ## Relationship to reht
