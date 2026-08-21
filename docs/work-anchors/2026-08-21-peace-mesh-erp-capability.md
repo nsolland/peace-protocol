@@ -7,7 +7,7 @@ Claim: integrate the externally validated AI-native ERP operating pattern as a r
 Repository: `nsolland/peace-protocol`
 Canonical base SHA: `5c49dc0dce5c0517fc728ab7ea16f2b503d4ec80`
 Branch: `feat/peace-mesh-erp-capability`
-Draft PR: pending creation from this branch
+Draft PR: `#9`
 
 Owned files:
 - `docs/work-anchors/2026-08-21-peace-mesh-erp-capability.md`
