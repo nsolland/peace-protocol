@@ -32,10 +32,11 @@ Any consequence-bearing action must pass a fresh authority check at the effect b
 ### Experimental interoperability profile
 
 - [MCIP — Mesh Context Interaction Protocol v0](protocol/PEACE_MCIP_V0.md)
+- [Mesh Capability Surfaces v0](protocol/PEACE_MESH_CAPABILITY_SURFACES_V0.md)
 - [MCIP envelope schema](schemas/peace-mcip-envelope-v0.schema.json)
 - [MCIP semantic conformance vectors](conformance/mcip-conformance-v0.json)
 
-MCIP is an optional transport-independent profile for bounded context, hypothesis, residual, evaluation and handoff exchange between models, agents, humans, devices and cognitive factories. It does not change PEACE authority semantics and is not required for PEACE conformance.
+MCIP is an optional transport-independent profile for bounded context, hypothesis, residual, evaluation and handoff exchange between models, agents, humans, devices and cognitive factories. The companion capability-surface note generalizes the mesh beyond cognition and API-connected tools: GUI, browser, operating-system, device, human, robotic and settlement surfaces may all be replaceable routes to capability while authority remains in the sovereign domain. Neither changes PEACE authority semantics or is required for PEACE conformance.
 
 Current draft: `0.1.0-draft.1`
 
