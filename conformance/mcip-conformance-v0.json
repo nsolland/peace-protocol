@@ -135,6 +135,46 @@
         "effect_requires_fresh_PEACE_authorization",
         "MCIP_message_cannot_bypass_effect_boundary"
       ]
+    },
+    {
+      "id": "MCIP-009-EFFECT-CAPABILITY-NE-AUTHORITY",
+      "given": {
+        "kind": "CAPABILITY_OFFER",
+        "payload": {
+          "capabilities": ["browser_control", "gui_control", "desktop_control"],
+          "target_class": "legacy_enterprise_application",
+          "active_authenticated_session": true,
+          "consequence_reach": true
+        }
+      },
+      "when": "effect_capable_node_is_selected",
+      "must": [
+        "capability_offer_may_inform_routing",
+        "active_session_does_not_create_standing_or_delegation",
+        "consequence_reach_does_not_create_authority",
+        "material_effect_requires_separate_fresh_PEACE_authorization"
+      ]
+    },
+    {
+      "id": "MCIP-010-HANDOFF-TO-EXECUTOR-REMAINS-INERT",
+      "given": {
+        "kind": "HANDOFF",
+        "payload": {
+          "candidate_action": "submit_payment",
+          "executor_surface": "gui",
+          "implementation_target": {
+            "window": "payments",
+            "control": "submit_button"
+          }
+        }
+      },
+      "when": "handoff_reaches_node_that_can_operate_the_target_interface",
+      "must": [
+        "handoff_remains_non_authorizing",
+        "low_level_interface_target_is_not_sufficient_authority_semantics",
+        "exact_governed_consequence_must_be_bound_before_effect",
+        "executor_cannot_self_promote_candidate_to_effect"
+      ]
     }
   ]
 }
