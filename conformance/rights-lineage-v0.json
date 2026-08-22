@@ -77,6 +77,99 @@
         "requested_use_allowed": false,
         "reason": "UNRESOLVED_RIGHTS_FAIL_CLOSED"
       }
+    },
+    {
+      "id": "proof-before-use-missing-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "train_persistent_model",
+        "technical_access": true,
+        "rights_basis": null,
+        "evidence_refs": [],
+        "evidence_status": "UNRESOLVED"
+      },
+      "expected": {
+        "decision": "DENY_OR_DEFER",
+        "requested_use_allowed": false,
+        "reason": "PROOF_REQUIRED_BEFORE_USE"
+      }
+    },
+    {
+      "id": "self-assertion-not-proof-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "commercialize_derivative",
+        "rights_basis": "license",
+        "evidence_refs": ["claim:self-attested"],
+        "evidence_status": "UNRESOLVED",
+        "claimed_scope_includes_requested_use": true
+      },
+      "expected": {
+        "decision": "DENY_OR_DEFER",
+        "requested_use_allowed": false,
+        "reason": "SELF_ASSERTION_NE_PROOF"
+      }
+    },
+    {
+      "id": "admitted-proof-wrong-scope-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "commercialize_derivative",
+        "rights_basis": "license",
+        "evidence_refs": ["license:123"],
+        "evidence_status": "ADMITTED",
+        "permitted_use_classes": ["analyze_for_task"]
+      },
+      "expected": {
+        "decision": "DENY",
+        "requested_use_allowed": false,
+        "reason": "EXACT_USE_SCOPE_REQUIRED"
+      }
+    },
+    {
+      "id": "admitted-proof-exact-use-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "commercialize_derivative",
+        "rights_basis": "license",
+        "evidence_refs": ["license:123"],
+        "evidence_status": "ADMITTED",
+        "permitted_use_classes": ["commercialize_derivative"]
+      },
+      "expected": {
+        "decision": "ALLOW",
+        "requested_use_allowed": true,
+        "reason": "PROVEN_RIGHT_FOR_REQUESTED_USE"
+      }
+    },
+    {
+      "id": "rejected-rights-basis-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "analyze_for_task",
+        "rights_basis": "ownership",
+        "evidence_refs": ["claim:rejected"],
+        "evidence_status": "REJECTED"
+      },
+      "expected": {
+        "decision": "DENY",
+        "requested_use_allowed": false,
+        "reason": "REJECTED_RIGHTS_BASIS_DENIES"
+      }
+    },
+    {
+      "id": "unknown-lineage-not-free-use-001",
+      "given": {
+        "rights_clearance_required": true,
+        "requested_use": "replicate_at_scale",
+        "lineage_known": false,
+        "technical_replication_possible": true
+      },
+      "expected": {
+        "decision": "DENY_OR_DEFER",
+        "requested_use_allowed": false,
+        "reason": "UNKNOWN_PROVENANCE_NE_PERMISSION"
+      }
     }
   ]
 }
