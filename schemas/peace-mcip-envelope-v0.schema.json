@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://peace-protocol.org/schemas/peace-mcip-envelope-v0.schema.json",
+  "title": "PEACE MCIP v0 Envelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "mcip_version",
+    "message_id",
+    "interaction_id",
+    "parent_message_ids",
+    "kind",
+    "sender",
+    "destination",
+    "purpose",
+    "created_at",
+    "epistemic_status",
+    "provenance",
+    "disclosure",
+    "payload",
+    "content_digest"
+  ],
+  "properties": {
+    "mcip_version": {
+      "const": "0"
+    },
+    "message_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "interaction_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_message_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "kind": {
+      "enum": [
+        "CAPABILITY_OFFER",
+        "CONTEXT_REQUEST",
+        "CONTEXT_CAPSULE",
+        "HYPOTHESIS",
+        "FRAME_EXPANSION",
+        "CHALLENGE",
+        "RESIDUAL",
+        "HANDOFF",
+        "SYNTHESIS",
+        "EVAL",
+        "PATTERN_OFFER",
+        "ROUTE_SUGGESTION",
+        "ACK",
+        "ERROR"
+      ]
+    },
+    "sender": {
+      "$ref": "#/$defs/endpoint"
+    },
+    "destination": {
+      "$ref": "#/$defs/destination"
+    },
+    "protected_domain": {
+      "type": ["string", "null"]
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validity": {
+      "$ref": "#/$defs/validity"
+    },
+    "epistemic_status": {
+      "enum": [
+        "OBSERVATION",
+        "EVIDENCE",
+        "HYPOTHESIS",
+        "CHALLENGE",
+        "UNRESOLVED",
+        "SYNTHESIS",
+        "EVALUATION",
+        "ROUTE_SUGGESTION",
+        "PROTOCOL_CONTROL"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["source_refs"],
+      "properties": {
+        "source_refs": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "source_digests": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/digest"}
+        }
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["scope"],
+      "properties": {
+        "grant_ref": {"type": ["string", "null"]},
+        "scope": {"type": "string", "minLength": 1},
+        "scope_digest": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+        "raw_context_disclosure": {"type": "boolean"}
+      }
+    },
+    "authority_context": {
+      "type": "object",
+      "description": "Informational references only. Presence MUST NOT be treated as effect authorization.",
+      "additionalProperties": true,
+      "properties": {
+        "standing_ref": {"type": ["string", "null"]},
+        "delegation_ref": {"type": ["string", "null"]},
+        "authority_state_ref": {"type": ["string", "null"]}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "content_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "transport_metadata": {
+      "type": "object",
+      "description": "Non-authoritative implementation metadata.",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["node_id"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "capability_class": {"type": ["string", "null"]},
+        "factory_id": {"type": ["string", "null"]}
+      }
+    },
+    "destination": {
+      "type": "object",
+      "additionalProperties": true,
+      "minProperties": 1,
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "group_id": {"type": "string", "minLength": 1},
+        "capability_class": {"type": "string", "minLength": 1},
+        "mesh_scope": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [
+        {"required": ["node_id"]},
+        {"required": ["group_id"]},
+        {"required": ["capability_class"]},
+        {"required": ["mesh_scope"]}
+      ]
+    },
+    "validity": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "expires_at": {"type": ["string", "null"], "format": "date-time"},
+        "state_ref": {"type": ["string", "null"]},
+        "authority_state_ref": {"type": ["string", "null"]},
+        "freshness_seconds": {"type": ["integer", "null"], "minimum": 0}
+      }
+    }
+  }
+}
