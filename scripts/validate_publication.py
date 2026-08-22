@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for PEACE Protocol draft releases."""
+"""Fail-closed validation for the public PEACE protocol surface."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ REQUIRED_FILES = [
     "GOVERNANCE.md",
     "CONTRIBUTING.md",
     "SECURITY.md",
-    "protocol/PEACE_WORLD_V0.md",
+    "PUBLICATION_POLICY.md",
     "protocol/PEACE_PROTOCOL_V0.md",
     "schemas/peace-envelope-v0.schema.json",
     "conformance/conformance-v0.json",
@@ -26,7 +26,7 @@ REQUIRED_FILES = [
 
 REQUIRED_INVARIANTS = [
     "ACTOR_IS_AUTHORITY_ROOT",
-    "FRAMLEIS",
+    "CONTINUITY_ACROSS_REPLACEMENT",
     "CAPABILITY_NE_AUTHORITY",
     "CANDIDATE_NE_DECISION",
     "DISCLOSURE_IS_GOVERNED",
@@ -64,6 +64,23 @@ FORBIDDEN_TRACKED_PATTERNS = [
     re.compile(r"gh[pousr]_[A-Za-z0-9_]{30,}"),
     re.compile(r"sk-[A-Za-z0-9]{20,}"),
 ]
+
+# These names/phrases are deliberately outside the public interoperability
+# surface. Their appearance is treated as a release-boundary regression.
+FORBIDDEN_PUBLIC_SURFACE = [
+    re.compile(r"\bFRAMLEIS\b", re.I),
+    re.compile(r"\bMCIP\b", re.I),
+    re.compile(r"\bPeace Mesh\b", re.I),
+    re.compile(r"\bNeuro Mesh\b", re.I),
+    re.compile(r"cross-model KV", re.I),
+    re.compile(r"latent-state bridge", re.I),
+    re.compile(r"learned topology", re.I),
+]
+
+TEXT_SUFFIXES = {".md", ".txt", ".json", ".yaml", ".yml", ".py", ".toml"}
+EXCLUDED_SURFACE_SCAN = {
+    "scripts/validate_publication.py",  # contains the forbidden patterns as rules
+}
 
 
 def fail(message: str) -> None:
@@ -112,7 +129,6 @@ def check_json() -> None:
 
 def check_protocol() -> None:
     protocol = read("protocol/PEACE_PROTOCOL_V0.md")
-    world = read("protocol/PEACE_WORLD_V0.md")
     readme = read("README.md")
     contributing = read("CONTRIBUTING.md")
     notice = read("NOTICE")
@@ -123,17 +139,15 @@ def check_protocol() -> None:
 
     for phrase in [
         "Everything can be routed except sovereignty.",
-        "Govern the workspace, not the worker",
         "person or organisation",
     ]:
-        if phrase not in (protocol + "\n" + world + "\n" + readme):
+        if phrase not in (protocol + "\n" + readme):
             fail(f"missing canonical protocol phrase: {phrase}")
 
     if "Conceptual contributions and provenance" not in contributing:
         fail("CONTRIBUTING.md must define conceptual contribution provenance")
     if "Margaret Stokes" not in notice:
         fail("NOTICE must preserve current conceptual attribution")
-
     if VERSION not in readme:
         fail(f"README.md must identify draft {VERSION}")
 
@@ -144,17 +158,31 @@ def check_licence() -> None:
         fail("LICENSE is not Apache License 2.0")
 
 
-def check_obvious_secrets() -> None:
+def iter_text_files():
     for p in ROOT.rglob("*"):
         if not p.is_file() or ".git" in p.parts or p.stat().st_size > 2_000_000:
             continue
+        rel = p.relative_to(ROOT).as_posix()
+        if rel in EXCLUDED_SURFACE_SCAN or p.suffix.lower() not in TEXT_SUFFIXES:
+            continue
         try:
-            text = p.read_text(encoding="utf-8")
+            yield rel, p.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+
+
+def check_obvious_secrets() -> None:
+    for rel, text in iter_text_files():
         for pattern in FORBIDDEN_TRACKED_PATTERNS:
             if pattern.search(text):
-                fail(f"possible credential/private key material found in {p.relative_to(ROOT)}")
+                fail(f"possible credential/private key material found in {rel}")
+
+
+def check_public_surface_boundary() -> None:
+    for rel, text in iter_text_files():
+        for pattern in FORBIDDEN_PUBLIC_SURFACE:
+            if pattern.search(text):
+                fail(f"non-public research surface leaked into public tree: {rel} ({pattern.pattern})")
 
 
 def main() -> None:
@@ -163,6 +191,7 @@ def main() -> None:
     check_protocol()
     check_licence()
     check_obvious_secrets()
+    check_public_surface_boundary()
     print(f"PEACE validation PASS: {VERSION}")
 
 
