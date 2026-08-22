@@ -10,9 +10,13 @@ It does not determine whether a legal right exists, does not create copyright or
 
 > **RIGHTS_FOLLOW_LINEAGE** — technical derivation MUST NOT by itself be treated as extinguishing or broadening applicable rights, restrictions or provenance obligations.
 
+> **PROOF_BEFORE_USE** — where rights clearance is required, the party proposing the next use MUST establish an admitted right for the exact requested use before that use is permitted.
+
 Equivalent observable invariants:
 
 ```text
+access         != licence
+exposure       != derivation right
 transformation != rights extinction
 compression    != rights extinction
 distillation   != rights extinction
@@ -20,6 +24,8 @@ transfer       != rights extinction
 replication    != permission
 regeneration   != rights reset
 capability     != license
+unknown lineage != free use
+self-assertion != admitted proof
 ```
 
 ## Required semantics
@@ -35,6 +41,11 @@ A conformant implementation MUST preserve the following semantics where a downst
 7. **NO_RIGHTS_LAUNDERING_BY_AGENT_CHAIN** — passing material through additional agents or models MUST NOT be treated as creating a clean unencumbered origin.
 8. **PROVENANCE_FOR_REQUIRED_CLEARANCE** — where rights clearance is required, enough lineage MUST remain available to evaluate the requested downstream use.
 9. **UNRESOLVED_RIGHTS_FAIL_CLOSED** — materially required rights/provenance bindings that are missing, stale, contradictory or unresolved MUST NOT be treated as permission.
+10. **BURDEN_ON_PROPOSED_USER** — the party proposing the rights-sensitive use MUST supply the evidence required for clearance; absence of an infringement claim from an upstream creator MUST NOT be treated as clearance.
+11. **SELF_ASSERTION_NE_PROOF** — a claimant's own assertion of ownership, licence, mandate or permission MUST NOT by itself establish rights clearance.
+12. **EXACT_USE_SCOPE_REQUIRED** — evidence admitted for one use class MUST NOT authorize a different use class.
+13. **REJECTED_RIGHTS_BASIS_DENIES** — rejected rights evidence MUST deny the covered use.
+14. **PROOF_FOLLOWS_LINEAGE** — downstream recipients of materially derived representations inherit the obligation to establish that their proposed downstream use remains within proven rights scope.
 
 ## Direction neutrality
 
@@ -49,6 +60,8 @@ Where relevant, a rights decision SHOULD bind:
 - source or lineage reference;
 - rights-holder/licensor reference where known;
 - asserted/applicable rights basis;
+- evidence references supporting that basis;
+- evidence admission status;
 - requested use class;
 - recipient/destination;
 - purpose;
@@ -60,6 +73,8 @@ Where relevant, a rights decision SHOULD bind:
 Permission for one use class MUST NOT imply permission for another.
 
 Examples include `analyze_for_task`, `transform_for_task`, `train_persistent_model`, `distill_into_model`, `build_person_model`, `redistribute_derivative`, `share_with_agent`, `commercialize_derivative` and `replicate_at_scale`.
+
+A rights-sensitive use requiring clearance MAY proceed only when admitted evidence establishes a valid basis covering the exact requested use. Missing or unresolved proof MUST fail closed as deny/defer/escalate according to policy.
 
 ## Relationship to person-model sovereignty
 
