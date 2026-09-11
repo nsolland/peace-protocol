@@ -32,9 +32,11 @@ Research derivations, experimental routing/mesh work, model-specific state-trans
 
 Current draft: `0.1.0-draft.1`
 
-## Relationship to reht
+## Relationship to REHT and HEIMEL
 
-PEACE defines governed-domain and authority interoperability semantics. `reht` is one possible implementation of a fresh consequence gate. It is not required by PEACE.
+PEACE defines governed-domain and authority interoperability semantics. REHT is one compatible standard for fresh authority at consequence time. HEIMEL is compatible consequence authorization infrastructure built around that boundary.
+
+PEACE remains a separate protocol. It is not part of the HEIMEL runtime chain, and neither REHT nor HEIMEL is required to implement PEACE.
 
 ## Project
 
